@@ -28,7 +28,7 @@ const subscriber = createSubscriber({ connectionString: databaseURL })
 subscriber.notifications.on("notifications", (payload) => {
   // Payload as passed to subscriber.notify() (see below)
   console.log("Received notification :", payload)
-  send('hello',payload)
+  send(payload.username ,payload)
 })
 
 subscriber.events.on("error", (error) => {
