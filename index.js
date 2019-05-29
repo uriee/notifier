@@ -20,8 +20,8 @@ const send = (queue,msg) => amqp.connect('amqp://localhost').then(function(conn)
   }).finally(function() { conn.close(); });
 }).catch(console.warn);
 
-//import { databaseURL } from "./config"
-const databaseURL = "postgres://admin:cbtadmin@192.9.200.102:5432/mymes";
+//const databaseURL = "postgres://admin:cbtadmin@192.9.200.102:5432/mymes";
+const databaseURL = "postgres://Administrator:Seabetee_admin@mymes.cwmyungyzkuu.us-east-2.rds.amazonaws.com:5432/mymes";
 // Accepts the same connection config object that the "pg" package would take
 const subscriber = createSubscriber({ connectionString: databaseURL })
 
@@ -35,6 +35,10 @@ subscriber.events.on("error", (error) => {
   console.error("Fatal database connection error:", error)
   process.exit(1)
 })
+subscriber.events.on("reconnect", (x) => {
+  console.log("reconnect:", x)
+})
+
 
 process.on("exit", () => {
   subscriber.close()
@@ -43,20 +47,15 @@ process.on("exit", () => {
 
 
 const connect = async ()=> {
-    await subscriber.connect()
-    await subscriber.listenTo("notifications")
+    try {
+      await subscriber.connect()
+      await subscriber.listenTo("notifications")
+    }catch(e){console.log(e)}
+    console.log('Subscribed to DB')    
   }
-  
-const sendToDB = async ()=> {
-  await subscriber.notify({
-    id: 1,
-    greeting: "Hey, buddy.",
-    timestamp: Date.now()
-  })
-}
+
 
 connect() 
-console.log('Subscribed to DB')
 
 
 
