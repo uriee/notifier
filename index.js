@@ -20,8 +20,8 @@ const send = (queue,msg) => amqp.connect('amqp://localhost').then(function(conn)
   }).finally(function() { conn.close(); });
 }).catch(console.warn);
 
-//const databaseURL = "postgres://admin:cbtadmin@192.9.200.102:5432/mymes";
-const databaseURL = "postgres://Administrator:Seabetee_admin@mymes.cwmyungyzkuu.us-east-2.rds.amazonaws.com:5432/mymes";
+const databaseURL = "postgres://admin:cbtadmin@192.9.200.102:5432/mymes";
+//const databaseURL = "postgres://Administrator:Seabetee_admin@mymes.cwmyungyzkuu.us-east-2.rds.amazonaws.com:5432/demo";
 // Accepts the same connection config object that the "pg" package would take
 const subscriber = createSubscriber({ connectionString: databaseURL })
 
